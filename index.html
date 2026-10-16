@@ -11,8 +11,8 @@
             box-sizing: border-box;
         }
         body {
-            /* Background bầu trời đêm đầy sao đứng im */
-            background: url('https://picsum.photos/id/1069/1920/1080') no-repeat center center fixed;
+            /* Background bầu trời đêm đầy sao chuẩn xác */
+            background: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
             background-color: #050515;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,14 +27,14 @@
             cursor: pointer;
         }
         
-        /* Lớp phủ tối nhẹ giúp nổi bật nội dung */
+        /* Lớp phủ tối nhẹ để tăng độ lung linh */
         .overlay-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 20, 0.45);
+            background: rgba(5, 5, 20, 0.4);
             z-index: 1;
             pointer-events: none;
         }
@@ -77,12 +77,12 @@
             pointer-events: none;
         }
 
-        /* Phong thư ở giữa màn hình (Thay thế hộp quà) */
+        /* Phong thư ở giữa màn hình (Ban đầu ẩn đi để tạo bất ngờ) */
         .center-envelope {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(0);
             width: 260px;
             height: 170px;
             background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
@@ -93,10 +93,12 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
         }
-        .center-envelope:hover {
-            transform: translate(-50%, -50%) scale(1.05);
+        .center-envelope.show {
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
         }
         .envelope-flap {
             position: absolute;
@@ -124,14 +126,14 @@
             margin-top: 30px;
         }
 
-        /* Lá thư chi tiết (Bước 2) */
+        /* Lá thư chi tiết */
         .letter-modal {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 15, 0.8);
+            background: rgba(5, 5, 15, 0.85);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
@@ -164,34 +166,34 @@
         }
         .letter-content h3 {
             color: #d81b60;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-size: 20px;
         }
         
-        /* Khung ảnh Polaroid */
+        /* Khung ảnh Polaroid hiển thị ảnh chị Kem */
         .polaroid {
             background: white;
-            padding: 10px 10px 22px 10px;
+            padding: 8px 8px 20px 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            width: 150px;
-            margin: 0 auto 15px auto;
+            width: 140px;
+            margin: 0 auto 12px auto;
             transform: rotate(-3deg);
             border-radius: 4px;
         }
         .polaroid img {
-            width: 130px;
-            height: 130px;
+            width: 124px;
+            height: 124px;
             object-fit: cover;
             border-radius: 2px;
         }
 
         .letter-content p {
-            font-size: 13.5px;
+            font-size: 13px;
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-align: left;
             color: #4a2e35;
-            max-height: 150px;
+            max-height: 130px;
             overflow-y: auto;
         }
         .close-letter {
@@ -240,7 +242,7 @@
     <div class="overlay-bg"></div>
     <div class="stars-container" id="starsContainer"></div>
 
-    <!-- Phong thư trung tâm -->
+    <!-- Phong thư trung tâm (Ban đầu ẩn) -->
     <div class="center-envelope" id="centerEnvelope">
         <div class="envelope-flap"></div>
         <div class="envelope-text">Chạm để mở thư ✨</div>
@@ -251,7 +253,8 @@
         <div class="letter-content">
             <h3>Gửi Chị Kem ❤️</h3>
             <div class="polaroid">
-                <img src="1000004495.jpg" alt="Chị Kem">
+                <!-- Thay link ảnh chuẩn của chị Kem -->
+                <img src="1000004495.jpg" alt="Chị Kem" onerror="this.src='https://picsum.photos/id/64/200/200'">
             </div>
             <p>
                 Gửi chị Kem ngọt ngào như chính cái tên của mình! Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ dưới bầu trời đầy sao này sẽ làm một ngày của chị thêm phần đặc biệt và ấm áp nhé! ✨
@@ -273,36 +276,33 @@
             const star = document.createElement('div');
             star.classList.add('origami-star');
 
-            // Vị trí ngẫu nhiên trên màn hình (tránh vùng giữa để không che phong thư)
             let x, y;
             do {
                 x = Math.random() * 85 + 5;
                 y = Math.random() * 80 + 10;
-            } while (isInitial && x > 30 && x < 70 && y > 35 && y < 65);
+            } while (isInitial && x > 25 && x < 75 && y > 30 && y < 70);
 
             star.style.left = `${x}%`;
             star.style.top = `${y}%`;
 
-            // Khi chạm vào ngôi sao -> rơi xuống và tạo sao mới ngẫu nhiên
             star.addEventListener('click', (e) => {
-                e.stopPropagation(); // Không kích hoạt sự kiện click mở phong thư
+                e.stopPropagation(); // Không kích hoạt sự kiện click màn hình
                 star.classList.add('falling');
                 setTimeout(() => {
                     star.remove();
-                    createStar(false); // Sinh ra ngôi sao mới ngẫu nhiên
+                    createStar(false);
                 }, 800);
             });
 
             container.appendChild(star);
         }
 
-        // Khởi tạo số lượng ngôi sao ban đầu
         for (let i = 0; i < totalStars; i++) {
             createStar(true);
         }
 
-        // --- 2. XỬ LÝ CLICK MÀN HÌNH (VÙNG TRỐNG) ---
-        let clickState = 0;
+        // --- 2. XỬ LÝ CLICK MÀN HÌNH (2 LẦN) ---
+        let clickState = 0; // 0: Chưa có gì, 1: Hiển thị phong thư, 2: Mở lá thư
         const centerEnvelope = document.getElementById('centerEnvelope');
         const letterModal = document.getElementById('letterModal');
 
@@ -311,14 +311,32 @@
             if (e.target.id === 'closeBtn' || e.target.classList.contains('origami-star')) return;
 
             if (clickState === 0) {
-                // Lần chạm thứ nhất: Mở nắp phong thư
-                centerEnvelope.classList.add('open');
+                // Lần chạm thứ nhất: Hiện phong thư bất ngờ ở giữa màn hình
+                centerEnvelope.classList.add('show');
                 clickState = 1;
             } else if (clickState === 1) {
-                // Lần chạm thứ hai: Ẩn phong thư, hiện lá thư kèm hiệu ứng pháo giấy (confetti)
-                centerEnvelope.style.display = 'none';
-                triggerConfetti();
-                letterModal.classList.add('show');
+                // Lần chạm nếu bấm vào vùng ngoài phong thư (hoặc nếu muốn chạm trực tiếp phong thư)
+                // Chuyển sang mở nắp phong thư
+                centerEnvelope.classList.add('open');
+                setTimeout(() => {
+                    centerEnvelope.classList.remove('show');
+                    triggerConfetti();
+                    letterModal.classList.add('show');
+                }, 400);
+                clickState = 2;
+            }
+        });
+
+        // Hỗ trợ thêm sự kiện click riêng trực tiếp vào phong thư để chuyển sang bước mở thư luôn cho mượt
+        centerEnvelope.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (clickState === 1) {
+                centerEnvelope.classList.add('open');
+                setTimeout(() => {
+                    centerEnvelope.classList.remove('show');
+                    triggerConfetti();
+                    letterModal.classList.add('show');
+                }, 400);
                 clickState = 2;
             }
         });
@@ -326,27 +344,26 @@
         // Hàm tạo hiệu ứng pháo giấy (confetti)
         function triggerConfetti() {
             const colors = ['#ffd700', '#ff4081', '#00ffff', '#ffeb3b', '#ff69b4', '#ffffff'];
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 60; i++) {
                 const conf = document.createElement('div');
                 conf.classList.add('confetti');
                 conf.style.left = `${Math.random() * 100}%`;
-                conf.style.top = `${Math.random() * 30}%`;
+                conf.style.top = `${Math.random() * 20}%`;
                 conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 conf.style.width = `${Math.random() * 6 + 6}px`;
                 conf.style.height = `${Math.random() * 10 + 10}px`;
-                conf.style.animationDuration = `${Math.random() * 0.8 + 0.8}s`;
+                conf.style.animationDuration = `${Math.random() * 1 + 0.8}s`;
                 document.body.appendChild(conf);
-                setTimeout(() => conf.remove(), 1500);
+                setTimeout(() => conf.remove(), 1800);
             }
         }
 
-        // Nút đóng thư để reset lại từ đầu nếu muốn
+        // Nút đóng thư để reset lại từ đầu
         document.getElementById('closeBtn').addEventListener('click', (e) => {
             e.stopPropagation();
             letterModal.classList.remove('show');
             setTimeout(() => {
                 centerEnvelope.classList.remove('open');
-                centerEnvelope.style.display = 'flex';
                 clickState = 0;
             }, 300);
         });
