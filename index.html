@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Món Quà Gửi Chị Kem</title>
+    <title>Gửi Chị Kem ❤️</title>
     <style>
         * {
             margin: 0;
@@ -11,110 +11,70 @@
             box-sizing: border-box;
         }
         body {
-            background-color: #0b0b10;
+            /* Background bầu trời đêm lung linh */
+            background: linear-gradient(135deg, #050515 0%, #100b2e 50%, #1f0f38 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
         }
-        /* Khung điện thoại mô phỏng */
-        .phone-frame {
-            position: relative;
-            width: 360px;
-            height: 700px;
-            background: #000;
-            border-radius: 40px;
-            border: 4px solid #333;
-            box-shadow: 0 0 40px rgba(255, 105, 180, 0.4);
-            overflow: hidden;
-        }
+
+        /* Vùng chứa không gian 3D chiếm toàn màn hình */
         #canvas-container {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        /* Giao diện nút bấm và tương tác */
-        .ui-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            z-index: 10;
+            z-index: 1;
         }
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            pointer-events: auto;
-        }
-        .live-tag {
-            background: rgba(255, 0, 0, 0.7);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-        .icon-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            font-size: 16px;
-        }
-        
-        /* Hộp quà / Nút mở quà ở giữa */
+
+        /* Hộp quà ở giữa màn hình */
         .center-gift-box {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            pointer-events: auto;
             cursor: pointer;
-            z-index: 20;
-            transition: transform 0.3s;
+            z-index: 10;
+            transition: transform 0.3s ease;
         }
         .center-gift-box:hover {
-            transform: translate(-50%, -50%) scale(1.1);
+            transform: translate(-50%, -50%) scale(1.15);
         }
         .gift-icon {
-            font-size: 60px;
+            font-size: 70px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
             animation: bounce 1.5s infinite alternate;
+        }
+        .gift-text {
+            font-size: 15px;
+            color: #ffd700;
+            margin-top: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
         @keyframes bounce {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
+            100% { transform: translateY(-12px); }
         }
 
-        /* Modal hiển thị Lá Thư / Lời Chúc */
+        /* Modal hiển thị bức thư */
         .letter-modal {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(5, 5, 15, 0.85);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -128,170 +88,184 @@
             pointer-events: auto;
         }
         .letter-content {
-            background: #fff0f5;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%);
             color: #333;
-            width: 88%;
-            padding: 25px;
-            border-radius: 20px;
+            width: 85%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 24px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
+            box-shadow: 0 15px 40px rgba(255, 182, 193, 0.4);
             position: relative;
             transform: scale(0.8);
             transition: transform 0.4s ease;
+            border: 2px solid #ffb6c1;
         }
         .letter-modal.show .letter-content {
             transform: scale(1);
         }
         .letter-content h3 {
             color: #d81b60;
-            margin-bottom: 12px;
-            font-size: 20px;
+            margin-bottom: 15px;
+            font-size: 22px;
         }
         .letter-content p {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 25px;
             text-align: left;
+            color: #4a2e35;
         }
         .close-letter {
-            background: #e91e63;
+            background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+            transition: transform 0.2s;
+        }
+        .close-letter:hover {
+            transform: scale(1.05);
         }
 
-        .bottom-title {
+        /* Lời nhắn nhỏ ở góc dưới */
+        .bottom-message {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            font-size: 13px;
-            color: #ff94b8;
-            pointer-events: auto;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            z-index: 5;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="phone-frame">
-        <!-- Không gian hiệu ứng 3D -->
-        <div id="canvas-container"></div>
+    <!-- Không gian 3D nền trời đêm -->
+    <div id="canvas-container"></div>
 
-        <!-- Hộp quà ở giữa để bấm mở thư -->
-        <div class="center-gift-box" id="giftBox" title="Nhấn để mở quà">
-            <div class="gift-icon">🎁</div>
-            <div style="font-size: 12px; color: #ff94b8; margin-top: 5px; font-weight: bold;">Chạm để mở quà</div>
-        </div>
+    <!-- Hộp quà ở giữa -->
+    <div class="center-gift-box" id="giftBox" title="Nhấn để mở quà">
+        <div class="gift-icon">🎁</div>
+        <div class="gift-text">Chạm để mở quà nhé ✨</div>
+    </div>
 
-        <!-- Bảng hiển thị Lá Thư (Modal) -->
-        <div class="letter-modal" id="letterModal">
-            <div class="letter-content">
-                <h3>Gửi Chị Kem ❤️</h3>
-                <p>
-                    Gửi chị Kem ngọt ngào như chính cái tên của mình! Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ này sẽ làm một ngày của chị thêm phần đặc biệt và ấm áp nhé! ✨
-                </p>
-                <button class="close-letter" id="closeBtn">Đóng thư</button>
-            </div>
+    <!-- Hộp thư / Lời chúc gửi chị Kem -->
+    <div class="letter-modal" id="letterModal">
+        <div class="letter-content">
+            <h3>Gửi Chị Kem ❤️</h3>
+            <p>
+                Gửi chị Kem ngọt ngào như chính cái tên của mình! Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ dưới bầu trời đầy sao này sẽ làm một ngày của chị thêm phần đặc biệt và ấm áp nhé! ✨
+            </p>
+            <button class="close-letter" id="closeBtn">Đóng thư</button>
         </div>
+    </div>
 
-        <!-- Giao diện nút bấm phủ lên -->
-        <div class="ui-overlay">
-            <div class="top-bar">
-                <div class="live-tag">LIVE</div>
-                <div style="display: flex; gap: 8px; pointer-events: auto;">
-                    <div class="icon-btn" id="soundBtn">🔊</div>
-                    <div class="icon-btn" id="helpBtn">?</div>
-                </div>
-            </div>
-            <div class="bottom-title">
-                Chạm vào hộp quà để mở lời nhắn gửi đến chị Kem nhé! ✨
-            </div>
-        </div>
+    <!-- Dòng chữ nhỏ dưới cùng -->
+    <div class="bottom-message">
+        Được làm riêng dành tặng chị Kem 🌟
     </div>
 
     <!-- Nhúng thư viện Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // --- 1. KHỞI TẠO KHÔNG GIAN 3D THREE.JS ---
+        // --- 1. KHỞI TẠO KHÔNG GIAN 3D BẦU TRỜI SAO & HẠT GIẤY ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-        camera.position.z = 30;
+        
+        // Thêm hiệu ứng sương mù nhẹ để tạo chiều sâu bầu trời đêm
+        scene.fog = new THREE.FogExp2(0x050515, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 35;
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        // Tạo hiệu ứng hạt hình trái tim 3D lấp lánh
-        const particleCount = 1800;
+        // Tạo hệ thống hạt gồm các ngôi sao giấy và hạt giấy lung linh bay lượn
+        const particleCount = 2500;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        const colorPalette = [
+            new THREE.Color(0xffd700), // Vàng sao
+            new THREE.Color(0xff69b4), // Hồng
+            new THREE.Color(0x00ffff), // Xanh cyan sáng
+            new THREE.Color(0xdda0dd), // Tím pastel
+            new THREE.Color(0xffffff)  // Trắng lấp lánh
+        ];
 
         for (let i = 0; i < particleCount; i++) {
-            const t = Math.random() * Math.PI * 2;
-            const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-            const z = (Math.random() - 0.5) * 6;
+            // Phân bổ các hạt ngẫu nhiên trong không gian rộng thành hình cầu xoay tròn
+            const u = Math.random();
+            const v = Math.random();
+            const theta = u * 2.0 * Math.PI;
+            const phi = Math.acos(2.0 * v - 1.0);
+            const r = 15 + Math.random() * 20;
 
-            positions[i * 3] = x * 0.55;
-            positions[i * 3 + 1] = y * 0.55;
-            positions[i * 3 + 2] = z;
+            positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            positions[i * 3 + 2] = r * Math.cos(phi);
+
+            // Gán màu sắc ngẫu nhiên cho từng hạt giấy/ngôi sao
+            const randomColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+            colors[i * 3] = randomColor.r;
+            colors[i * 3 + 1] = randomColor.g;
+            colors[i * 3 + 2] = randomColor.b;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
         const material = new THREE.PointsMaterial({
-            color: 0xff3366,
-            size: 0.55,
+            size: 0.8,
+            vertexColors: true,
             transparent: true,
-            opacity: 0.85,
+            opacity: 0.9,
             blending: THREE.AdditiveBlending
         });
 
-        const particleSystem = new THREE.Points(geometry, material);
-        scene.add(particleSystem);
+        const starSystem = new THREE.Points(geometry, material);
+        scene.add(starSystem);
 
-        // Vòng lặp chuyển động xoay 3D
+        // Vòng lặp chuyển động xoay không gian 3D
         function animate() {
             requestAnimationFrame(animate);
-            particleSystem.rotation.y += 0.004;
+            starSystem.rotation.y += 0.002;
+            starSystem.rotation.x += 0.0008;
             renderer.render(scene, camera);
         }
         animate();
 
-        // --- 2. XỬ LÝ TƯƠNG TÁC ĐIỀU KHIỂN ---
+        // --- 2. XỬ LÝ TƯƠNG TÁC MỞ THƯ ---
         const giftBox = document.getElementById('giftBox');
         const letterModal = document.getElementById('letterModal');
         const closeBtn = document.getElementById('closeBtn');
-        const soundBtn = document.getElementById('soundBtn');
 
-        // Bấm vào hộp quà thì hiện lá thư
         giftBox.addEventListener('click', () => {
             letterModal.classList.add('show');
         });
 
-        // Bấm nút đóng lá thư
         closeBtn.addEventListener('click', () => {
             letterModal.classList.remove('show');
         });
 
-        // Bấm nút loa bật/tắt (mô phỏng)
-        let isMuted = false;
-        soundBtn.addEventListener('click', () => {
-            isMuted = !isMuted;
-            soundBtn.textContent = isMuted ? '🔇' : '🔊';
-        });
-
-        // Tự động căn chỉnh kích thước màn hình
+        // Tự động căn chỉnh khi thay đổi kích thước cửa sổ trình duyệt
         window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
