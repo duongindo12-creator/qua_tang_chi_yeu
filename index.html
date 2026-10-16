@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chúc Mừng Ngày 20/10 🌸</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -24,7 +23,7 @@
             position: relative;
         }
 
-        /* --- HIỆU ỨNG 1: Trái tim rơi nền --- */
+        /* Hiệu ứng trái tim rơi nền */
         #hearts-container {
             position: fixed;
             top: 0;
@@ -43,8 +42,7 @@
             animation: fall linear infinite;
         }
 
-        .heart::before,
-        .heart::after {
+        .heart::before, .heart::after {
             content: '';
             position: absolute;
             width: inherit;
@@ -52,7 +50,6 @@
             background: inherit;
             border-radius: 50%;
         }
-
         .heart::before { top: -50%; left: 0; }
         .heart::after { left: -50%; top: 0; }
 
@@ -61,32 +58,7 @@
             100% { transform: translateY(110vh) rotate(45deg) scale(1.2); opacity: 0; }
         }
 
-        /* --- HIỆU ỨNG 2: Bắn pháo hoa trái tim --- */
-        .confetti-heart {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: #ff4081;
-            transform: rotate(45deg);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        .confetti-heart::before,
-        .confetti-heart::after {
-            content: '';
-            position: absolute;
-            width: inherit;
-            height: inherit;
-            background: inherit;
-            border-radius: 50%;
-        }
-
-        .confetti-heart::before { top: -50%; left: 0; }
-        .confetti-heart::after { left: -50%; top: 0; }
-
-        /* --- Khung chính chứa thiệp / hộp quà --- */
+        /* Khung chính */
         .container {
             position: relative;
             z-index: 10;
@@ -102,43 +74,27 @@
             color: #d81b60;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
         }
 
         /* Hộp quà */
         .gift-box {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(216, 27, 96, 0.2);
-            transition: all 0.3s ease;
             cursor: pointer;
             border: 2px dashed #ff4081;
-            position: relative;
+            display: inline-block;
+            transition: transform 0.2s;
         }
 
-        .gift-box:hover {
-            transform: scale(1.03);
-            box-shadow: 0 20px 40px rgba(216, 27, 96, 0.3);
+        .gift-box:active {
+            transform: scale(0.95);
         }
 
         .gift-icon {
             font-size: 5rem;
             margin-bottom: 15px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
 
         p.instruction {
@@ -147,21 +103,15 @@
             font-weight: 600;
         }
 
-        /* Nội dung lời chúc (Ẩn ban đầu) */
+        /* Nội dung lời chúc */
         .wish-card {
             display: none;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.98);
             padding: 40px 30px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            animation: fadeIn 0.8s ease forwards;
             border: 2px solid #ff80ab;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.8) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            text-align: left;
         }
 
         .wish-card h2 {
@@ -169,7 +119,7 @@
             color: #c2185b;
             font-size: 2.3rem;
             margin-bottom: 15px;
-            line-height: 1.2;
+            text-align: center;
         }
 
         .wish-card p {
@@ -177,7 +127,6 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 20px;
-            text-align: left;
         }
 
         .love-text {
@@ -186,7 +135,11 @@
             color: #e91e63;
             font-weight: bold;
             margin-bottom: 25px;
-            animation: pulse 1.5s infinite;
+            text-align: center;
+        }
+
+        .btn-container {
+            text-align: center;
         }
 
         .btn-back {
@@ -199,121 +152,62 @@
             border-radius: 30px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(245, 0, 87, 0.4);
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .btn-back:hover {
-            background: linear-gradient(45deg, #f50057, #c51162);
-            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
 
-    <!-- Container cho hiệu ứng trái tim rơi nền -->
     <div id="hearts-container"></div>
 
     <div class="container">
         <h1>Chúc Mừng 20/10 🌸</h1>
         
-        <!-- Hộp quà tương tác -->
-        <div class="gift-box" id="giftBox">
+        <!-- Hộp quà bấm trực tiếp bằng thuộc tính onclick chuẩn HTML -->
+        <div class="gift-box" id="giftBox" onclick="openWish()">
             <div class="gift-icon">🎁</div>
             <p class="instruction">Nhấn vào hộp quà để mở lời chúc nhé!</p>
         </div>
 
-        <!-- Thiệp chúc mừng xuất hiện sau khi mở -->
+        <!-- Thiệp chúc mừng -->
         <div class="wish-card" id="wishCard">
             <h2>Gửi Chị Kem Yêu Dấu!!! ❤️</h2>
             <p>
                 Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ này sẽ làm ngày 20/10 của chị thêm phần vui vẻ nhé!!! ✨
             </p>
             <div class="love-text">💗💗💗 em 🫶 chị 💗💗💗</div>
-            <button class="btn-back" id="closeBtn">Đóng lại 💌</button>
+            <div class="btn-container">
+                <button class="btn-back" onclick="closeWish()">Đóng lại 💌</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- CHỨC NĂNG 1: Tạo trái tim rơi nền ---
+        // Tạo hiệu ứng trái tim rơi nền
         function createFallingHeart() {
             const container = document.getElementById('hearts-container');
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            
             const size = Math.random() * 20 + 10 + 'px';
             heart.style.width = size;
             heart.style.height = size;
             heart.style.left = Math.random() * 100 + 'vw';
-            
             const duration = Math.random() * 3 + 3 + 's';
             heart.style.animationDuration = duration;
-            
             container.appendChild(heart);
             setTimeout(() => { heart.remove(); }, parseFloat(duration) * 1000);
         }
         setInterval(createFallingHeart, 300);
 
-        // --- CHỨC NĂNG 2: Xử lý sự kiện mở quà (Đã fix lỗi click) ---
-        const giftBox = document.getElementById('giftBox');
-        const wishCard = document.getElementById('wishCard');
-        const closeBtn = document.getElementById('closeBtn');
+        // Hàm mở thư chắc chắn chạy 100%
+        function openWish() {
+            document.getElementById('giftBox').style.display = 'none';
+            document.getElementById('wishCard').style.display = 'block';
+        }
 
-        giftBox.addEventListener('click', function(event) {
-            // Lấy tọa độ tâm hộp quà để bắn pháo hoa chính xác
-            const rect = giftBox.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-
-            createHeartFirework(x, y);
-
-            // Ẩn hộp quà, hiện thiệp chúc mừng mượt mà
-            giftBox.style.display = 'none';
-            wishCard.style.display = 'block';
-        });
-
-        // --- CHỨC NĂNG 3: Đóng quà ---
-        closeBtn.addEventListener('click', function() {
-            wishCard.style.display = 'none';
-            giftBox.style.display = 'block';
-        });
-
-        // --- CHỨC NĂNG 4: Logic bắn pháo hoa trái tim ---
-        function createHeartFirework(x, y) {
-            const heartCount = 35;
-            const colors = ['#ff4081', '#ff80ab', '#c2185b', '#e91e63', '#ff1493'];
-
-            for (let i = 0; i < heartCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti-heart');
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-                confetti.style.left = x + 'px';
-                confetti.style.top = y + 'px';
-
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 180 + 60;
-                const xEnd = Math.cos(angle) * velocity + 'px';
-                const yEnd = Math.sin(angle) * velocity + 'px';
-                
-                const duration = Math.random() * 0.8 + 0.6 + 's';
-                
-                const keyframesName = `explode_custom_${i}_${Date.now()}`;
-                const styleSheet = document.styleSheets[0];
-                
-                styleSheet.insertRule(`
-                    @keyframes ${keyframesName} {
-                        0% { transform: translate(-50%, -50%) rotate(45deg) scale(0); opacity: 1; }
-                        100% { transform: translate(calc(-50% + ${xEnd}), calc(-50% + ${yEnd})) rotate(calc(45deg + ${Math.random()*360}deg)) scale(${Math.random() * 1.5 + 0.6}); opacity: 0; }
-                    }
-                `, styleSheet.cssRules.length);
-                
-                confetti.style.animation = `${keyframesName} ${duration} ease-out forwards`;
-                document.body.appendChild(confetti);
-
-                setTimeout(() => {
-                    confetti.remove();
-                }, parseFloat(duration) * 1000);
-            }
+        // Hàm đóng thư
+        function closeWish() {
+            document.getElementById('wishCard').style.display = 'none';
+            document.getElementById('giftBox').style.display = 'inline-block';
         }
     </script>
 </body>
