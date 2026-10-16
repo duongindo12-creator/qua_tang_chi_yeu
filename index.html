@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Món Quà Gửi Chị Kem ❤️</title>
+    <title>Món Quà 20/10 Gửi Chị Kem ❤️</title>
     <style>
         * {
             margin: 0;
@@ -11,10 +11,8 @@
             box-sizing: border-box;
         }
         body {
-            /* Background bầu trời đêm đầy sao chuẩn xác */
-            background: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover;
-            background-color: #050515;
+            /* Background hồng pastel lãng mạn, ấm áp phù hợp ngày 20/10 */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ff758c 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
             width: 100vw;
@@ -27,14 +25,14 @@
             cursor: pointer;
         }
         
-        /* Lớp phủ tối nhẹ để tăng độ lung linh */
+        /* Lớp phủ sáng nhẹ tạo hiệu ứng lung linh */
         .overlay-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 20, 0.4);
+            background: rgba(255, 255, 255, 0.15);
             z-index: 1;
             pointer-events: none;
         }
@@ -55,9 +53,9 @@
             position: absolute;
             width: 32px;
             height: 32px;
-            background: radial-gradient(circle, #ffeb3b 0%, #f57f17 100%);
+            background: radial-gradient(circle, #fff 0%, #ffeb3b 100%);
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            box-shadow: 0 0 12px rgba(255, 235, 59, 0.7);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
             pointer-events: auto;
             cursor: pointer;
             transition: transform 0.2s ease;
@@ -77,17 +75,17 @@
             pointer-events: none;
         }
 
-        /* Phong thư ở giữa màn hình (Ban đầu ẩn đi để tạo bất ngờ) */
+        /* Phong thư ở giữa màn hình (Ban đầu ẩn) */
         .center-envelope {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
-            width: 260px;
-            height: 170px;
-            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-            border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.5);
+            width: 280px;
+            height: 180px;
+            background: linear-gradient(135deg, #ff4081 0%, #e91e63 100%);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(233, 30, 99, 0.4);
             z-index: 10;
             display: flex;
             align-items: center;
@@ -106,9 +104,9 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 130px solid transparent;
-            border-right: 130px solid transparent;
-            border-top: 95px solid #ff5277;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #c2185b;
             transform-origin: top;
             transition: transform 0.4s ease;
         }
@@ -123,7 +121,7 @@
             font-size: 16px;
             text-align: center;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin-top: 30px;
+            margin-top: 35px;
         }
 
         /* Lá thư chi tiết */
@@ -133,8 +131,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 15, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -155,7 +153,7 @@
             padding: 25px;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 15px 40px rgba(255, 182, 193, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.4);
             position: relative;
             transform: scale(0.7);
             transition: transform 0.4s ease;
@@ -170,7 +168,7 @@
             font-size: 20px;
         }
         
-        /* Khung ảnh Polaroid hiển thị ảnh chị Kem */
+        /* Khung ảnh Polaroid hiển thị chính xác ảnh chị Kem */
         .polaroid {
             background: white;
             padding: 8px 8px 20px 8px;
@@ -229,11 +227,11 @@
             width: 100%;
             text-align: center;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.9);
             z-index: 5;
             letter-spacing: 0.5px;
             pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
     </style>
 </head>
@@ -245,26 +243,26 @@
     <!-- Phong thư trung tâm (Ban đầu ẩn) -->
     <div class="center-envelope" id="centerEnvelope">
         <div class="envelope-flap"></div>
-        <div class="envelope-text">Chạm để mở thư ✨</div>
+        <div class="envelope-text">Chạm để mở thư 20/10 ✨</div>
     </div>
 
-    <!-- Lá thư chi tiết kèm ảnh -->
+    <!-- Lá thư chi tiết kèm ảnh chính chủ đúng tên file -->
     <div class="letter-modal" id="letterModal">
         <div class="letter-content">
             <h3>Gửi Chị Kem ❤️</h3>
             <div class="polaroid">
-                <!-- Thay link ảnh chuẩn của chị Kem -->
-                <img src="1000004495.jpg" alt="Chị Kem" onerror="this.src='https://picsum.photos/id/64/200/200'">
+                <!-- Tên file ảnh chuẩn xác từ điện thoại của bạn -->
+                <img src="IMG_20261011_200126.jpg" alt="Chị Kem" onerror="this.src='https://picsum.photos/id/64/200/200'">
             </div>
             <p>
-                Gửi chị Kem ngọt ngào như chính cái tên của mình! Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ dưới bầu trời đầy sao này sẽ làm một ngày của chị thêm phần đặc biệt và ấm áp nhé! ✨
+                Gửi chị Kem ngọt ngào như chính cái tên của mình! Nhân dịp 20/10, chúc chị luôn luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và ngập tràn hạnh phúc trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ này sẽ làm một ngày 20/10 của chị thật đặc biệt và ấm áp nhé! ✨
             </p>
             <button class="close-letter" id="closeBtn">Đóng lại</button>
         </div>
     </div>
 
     <div class="bottom-message">
-        Món quà đặc biệt dành riêng cho chị Kem 🌟
+        Món quà 20/10 đặc biệt dành riêng cho chị Kem 🌸
     </div>
 
     <script>
@@ -286,7 +284,7 @@
             star.style.top = `${y}%`;
 
             star.addEventListener('click', (e) => {
-                e.stopPropagation(); // Không kích hoạt sự kiện click màn hình
+                e.stopPropagation();
                 star.classList.add('falling');
                 setTimeout(() => {
                     star.remove();
@@ -302,21 +300,19 @@
         }
 
         // --- 2. XỬ LÝ CLICK MÀN HÌNH (2 LẦN) ---
-        let clickState = 0; // 0: Chưa có gì, 1: Hiển thị phong thư, 2: Mở lá thư
+        let clickState = 0;
         const centerEnvelope = document.getElementById('centerEnvelope');
         const letterModal = document.getElementById('letterModal');
 
         document.body.addEventListener('click', (e) => {
-            // Nếu bấm vào nút đóng thư hoặc bấm trực tiếp lên sao thì bỏ qua
             if (e.target.id === 'closeBtn' || e.target.classList.contains('origami-star')) return;
 
             if (clickState === 0) {
-                // Lần chạm thứ nhất: Hiện phong thư bất ngờ ở giữa màn hình
+                // Chạm lần 1: Hiện phong thư ở giữa màn hình
                 centerEnvelope.classList.add('show');
                 clickState = 1;
             } else if (clickState === 1) {
-                // Lần chạm nếu bấm vào vùng ngoài phong thư (hoặc nếu muốn chạm trực tiếp phong thư)
-                // Chuyển sang mở nắp phong thư
+                // Chạm lần 2 ở vùng trống: Mở phong thư
                 centerEnvelope.classList.add('open');
                 setTimeout(() => {
                     centerEnvelope.classList.remove('show');
@@ -327,7 +323,7 @@
             }
         });
 
-        // Hỗ trợ thêm sự kiện click riêng trực tiếp vào phong thư để chuyển sang bước mở thư luôn cho mượt
+        // Click trực tiếp vào phong thư
         centerEnvelope.addEventListener('click', (e) => {
             e.stopPropagation();
             if (clickState === 1) {
@@ -343,7 +339,7 @@
 
         // Hàm tạo hiệu ứng pháo giấy (confetti)
         function triggerConfetti() {
-            const colors = ['#ffd700', '#ff4081', '#00ffff', '#ffeb3b', '#ff69b4', '#ffffff'];
+            const colors = ['#ffd700', '#ff4081', '#ff1493', '#ffeb3b', '#ff69b4', '#ffffff'];
             for (let i = 0; i < 60; i++) {
                 const conf = document.createElement('div');
                 conf.classList.add('confetti');
