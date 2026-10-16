@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Món Quà Kỷ Niệm</title>
+    <title>Món Quà Gửi Chị Kem</title>
     <style>
         * {
             margin: 0;
@@ -24,12 +24,12 @@
         /* Khung điện thoại mô phỏng */
         .phone-frame {
             position: relative;
-            width: 340px;
-            height: 680px;
+            width: 360px;
+            height: 700px;
             background: #000;
             border-radius: 40px;
             border: 4px solid #333;
-            box-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
+            box-shadow: 0 0 40px rgba(255, 105, 180, 0.4);
             overflow: hidden;
         }
         #canvas-container {
@@ -39,7 +39,7 @@
             top: 0;
             left: 0;
         }
-        /* Giao diện nút bấm trên điện thoại */
+        /* Giao diện nút bấm và tương tác */
         .ui-overlay {
             position: absolute;
             top: 0;
@@ -55,56 +55,168 @@
         }
         .top-bar {
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
             pointer-events: auto;
         }
+        .live-tag {
+            background: rgba(255, 0, 0, 0.7);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
         .icon-btn {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             backdrop-filter: blur(5px);
+            font-size: 16px;
         }
+        
+        /* Hộp quà / Nút mở quà ở giữa */
+        .center-gift-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 20;
+            transition: transform 0.3s;
+        }
+        .center-gift-box:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .gift-icon {
+            font-size: 60px;
+            animation: bounce 1.5s infinite alternate;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        /* Modal hiển thị Lá Thư / Lời Chúc */
+        .letter-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .letter-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .letter-content {
+            background: #fff0f5;
+            color: #333;
+            width: 88%;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.5);
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+        .letter-modal.show .letter-content {
+            transform: scale(1);
+        }
+        .letter-content h3 {
+            color: #d81b60;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+        .letter-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .close-letter {
+            background: #e91e63;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
         .bottom-title {
             text-align: center;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             padding: 10px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
-            font-size: 14px;
+            font-size: 13px;
             color: #ff94b8;
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
 
     <div class="phone-frame">
-        <!-- Vùng chứa hiệu ứng 3D Three.js -->
+        <!-- Không gian hiệu ứng 3D -->
         <div id="canvas-container"></div>
 
-        <!-- Lớp giao diện phủ lên -->
+        <!-- Hộp quà ở giữa để bấm mở thư -->
+        <div class="center-gift-box" id="giftBox" title="Nhấn để mở quà">
+            <div class="gift-icon">🎁</div>
+            <div style="font-size: 12px; color: #ff94b8; margin-top: 5px; font-weight: bold;">Chạm để mở quà</div>
+        </div>
+
+        <!-- Bảng hiển thị Lá Thư (Modal) -->
+        <div class="letter-modal" id="letterModal">
+            <div class="letter-content">
+                <h3>Gửi Chị Kem ❤️</h3>
+                <p>
+                    Gửi chị Kem ngọt ngào như chính cái tên của mình! Chúc chị luôn xinh đẹp, rạng rỡ, gặp thật nhiều may mắn và luôn vui vẻ trong cuộc sống. Cảm ơn chị vì đã luôn mang lại những năng lượng tuyệt vời. Mong rằng món quà nhỏ này sẽ làm một ngày của chị thêm phần đặc biệt và ấm áp nhé! ✨
+                </p>
+                <button class="close-letter" id="closeBtn">Đóng thư</button>
+            </div>
+        </div>
+
+        <!-- Giao diện nút bấm phủ lên -->
         <div class="ui-overlay">
             <div class="top-bar">
-                <div class="icon-btn" id="soundBtn" title="Bật/Tắt nhạc">🔊</div>
-                <div class="icon-btn" title="Trợ giúp">?</div>
+                <div class="live-tag">LIVE</div>
+                <div style="display: flex; gap: 8px; pointer-events: auto;">
+                    <div class="icon-btn" id="soundBtn">🔊</div>
+                    <div class="icon-btn" id="helpBtn">?</div>
+                </div>
             </div>
             <div class="bottom-title">
-                Gửi Phương Anh - Kỷ niệm yêu thương ❤️
+                Chạm vào hộp quà để mở lời nhắn gửi đến chị Kem nhé! ✨
             </div>
         </div>
     </div>
 
-    <!-- Nhúng thư viện Three.js từ CDN -->
+    <!-- Nhúng thư viện Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Thiết lập không gian 3D với Three.js
+        // --- 1. KHỞI TẠO KHÔNG GIAN 3D THREE.JS ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -115,49 +227,67 @@
         renderer.setPixelRatio(window.devicePixelRatio);
         container.appendChild(renderer.domElement);
 
-        // Tạo hiệu ứng hạt trái tim 3D hồng rực rỡ
-        const particleCount = 1500;
+        // Tạo hiệu ứng hạt hình trái tim 3D lấp lánh
+        const particleCount = 1800;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
 
         for (let i = 0; i < particleCount; i++) {
-            // Công thức toán học tạo hình trái tim 3D
             const t = Math.random() * Math.PI * 2;
-            const u = Math.random() * Math.PI;
-            
-            let x = 16 * Math.pow(Math.sin(t), 3);
-            let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
-            let z = (Math.random() - 0.5) * 5;
+            const x = 16 * Math.pow(Math.sin(t), 3);
+            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            const z = (Math.random() - 0.5) * 6;
 
-            // Thu nhỏ kích thước cho vừa khung hình
-            positions[i * 3] = x * 0.6;
-            positions[i * 3 + 1] = y * 0.6;
+            positions[i * 3] = x * 0.55;
+            positions[i * 3 + 1] = y * 0.55;
             positions[i * 3 + 2] = z;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-        // Màu sắc và kiểu hạt sáng lấp lánh
         const material = new THREE.PointsMaterial({
             color: 0xff3366,
-            size: 0.6,
+            size: 0.55,
             transparent: true,
-            opacity: 0.8,
+            opacity: 0.85,
             blending: THREE.AdditiveBlending
         });
 
         const particleSystem = new THREE.Points(geometry, material);
         scene.add(particleSystem);
 
-        // Hiệu ứng chuyển động xoay nhẹ nhàng
+        // Vòng lặp chuyển động xoay 3D
         function animate() {
             requestAnimationFrame(animate);
-            particleSystem.rotation.y += 0.005;
+            particleSystem.rotation.y += 0.004;
             renderer.render(scene, camera);
         }
         animate();
 
-        // Xử lý co giãn màn hình theo kích thước khung điện thoại
+        // --- 2. XỬ LÝ TƯƠNG TÁC ĐIỀU KHIỂN ---
+        const giftBox = document.getElementById('giftBox');
+        const letterModal = document.getElementById('letterModal');
+        const closeBtn = document.getElementById('closeBtn');
+        const soundBtn = document.getElementById('soundBtn');
+
+        // Bấm vào hộp quà thì hiện lá thư
+        giftBox.addEventListener('click', () => {
+            letterModal.classList.add('show');
+        });
+
+        // Bấm nút đóng lá thư
+        closeBtn.addEventListener('click', () => {
+            letterModal.classList.remove('show');
+        });
+
+        // Bấm nút loa bật/tắt (mô phỏng)
+        let isMuted = false;
+        soundBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            soundBtn.textContent = isMuted ? '🔇' : '🔊';
+        });
+
+        // Tự động căn chỉnh kích thước màn hình
         window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
